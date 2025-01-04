@@ -1,1 +1,539 @@
-SAE 1.02
+/*  
+  ==========================================================
+  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025  ||
+  ==========================================================
+  || Voici la Liste des fonctions pour le jeu du Nim:     ||
+  ==========================================================
+  || < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.
+  || < Parametres >              - Permet de lire les paramètres du jeu.
+  || < Voisines >                - Construit la liste des cases voisines d'une case donnée.
+  || < Hasard >                  - Génère un déplacement au hasard.
+  || < Nimber >                  - Calcule le nimber d'une case donnée.
+  || < Coup_Joueur >             - Permet au joueur humain de choisir une destination parmi les voisines possibles.
+  || < Coup_Ordi_Hasard >        - Permet à l'ordinateur de choisir un coup au hasard.
+  || < Coup_Ordi_Gagnant >       - Permet à l'ordinateur de jouer un coup gagnant.
+  || < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.
+  || < main >                    - Assemble l’ensemble et exécute la partie.
+  ==========================================================
+
+  ======================================================
+  ||  Couleurs ANSI Utilisées dans le jeu du Nim      ||
+  ======================================================
+  || < \033[31m - Rouge >        - Utilisé pour les messages d'erreur
+  || < \033[32m - Vert >         - Utilisé pour les messages de succès
+  || < \033[33m - Jaune >        - Utilisé pour les messages de prompt
+  || < \033[34m - Bleu >         - Utilisé pour les titres et séparations
+  || < \033[35m - Magenta >      - Utilisé pour les choix du joueur
+  || < \033[36m - Cyan >         - Utilisé pour les messages spécifiques (créateur, choix du joueur)
+  || < \033[0m  - Reset >        - Reset les couleurs au défaut du terminal
+  ======================================================
+
+  accessoires :
+  -> pion  : ♟
+  -> puits : 🚩
+  -> fin : 🔴
+
+  prévisualisation du jeu:
+  
+  grille : 5X5
+      1 2 3 4 5
+    1 ♟ - - - -
+    2 - - - - -
+    3 - - - - -
+    4 - - - - -
+    5 - - - - 🚩
+
+
+  Nimber : 5X5
+
+      1 2 3 4 5
+      __________
+    1|0 1 1 0 1
+    2|1 0 1 1 0
+    3|1 1 0 1 1
+    4|0 1 1 0 1
+    5|1 0 1 1 0
+
+
+  ||      grille : 5X5                                           ||
+  ||                                                              ||
+  ||        1 2 3 4 5                             1 2 3 4 5       ||
+  ||      1 ♟ - - - -                           1 - - - - -       ||
+  ||      2 - - - - -                           2 - - - - -       ||
+  ||      3 - - - - -                           3 - - - - -       ||
+  ||      4 - - - - -                           4 - - - - -       ||
+  ||      5 - - - - 🚩                          5 - - - - 🔴       || 
+  ||                                                              ||
+  ||                                                              ||
+  ||                                                              ||
+  ||                                                              ||
+  ||      grille : 5X5                       grille : 5X5        ||
+  ||                                                              ||
+  ||        1 2 3 4 5                             1 2 3 4 5       ||
+  ||      1 - - - - -                           1 - - - - -       ||
+  ||      2 - - - - -                           2 - - - - -       ||
+  ||      3 - - ♟ - -                           3 - - - - -       ||
+  ||      4 - - - - -                           4 - - - - -       ||
+  ||      5 - - - - 🚩                          5 - - - - 🔴       || 
+  ||                                                              ||
+  ||                                                              ||
+  ||                                                              ||
+  ||                                                              ||
+*/
+
+#include <stdio.h>                                    // Bibliothèque standard pour les entrées/sorties
+#include <stdlib.h>                                   // Bibliothèque standard pour les fonctions utilitaires
+#include <time.h>                                     // Bibliothèque pour les fonctions liées au temps
+#include <string.h>                                   // Bibliothèque pour la manipulation des chaînes de caractères
+#include <ctype.h>                                    // Bibliothèque pour les fonctions de traitement de caractères
+
+#define VMIN 5                                        // Nombre minimum de lignes/colonnes
+#define VMAX 30                                       // Nombre maximum de lignes/colonnes
+
+/*
+  ===========================
+   1. Déclarations de types
+  ===========================
+*/
+
+typedef struct {                                     // Structure représentant une case de la grille : (lig, col)
+    int lig;                                          // Ligne
+    int col;                                          // Colonne
+} T_Case;                                            // Stocke les coordonnées ligne/colonne
+
+typedef struct {                                     // Structure représentant un tableau de cases voisines
+    T_Case tab[4];                                   // Tableau de 4 cases voisines
+    int nb;                                          // Nombre de voisins
+} T_Tab_Case;                                        // Tableau de cases voisines
+
+/*
+  =====================================
+   2. Lecture et vérification d'entier
+  =====================================
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define VMIN 5
+#define VMAX 30
+
+/*
+  =====================================
+   2. Lecture et vérification d'entier
+  =====================================
+*/
+
+// Nouvelle fonction Lire_Entier simplifiée sans fonctions auxiliaires
+int Lire_Entier(const char* message, int min, int max) {
+    char buffer[100]; // Taille suffisante pour la plupart des entrées
+    int valeur;
+    char* finptr;
+
+    while (1) {
+        printf("%s", message);
+        
+        // Lire une ligne d'entrée
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+            // EOF ou erreur de lecture
+            printf("\033[31mUne erreur de saisie est survenue. Veuillez entrer un entier.\033[0m\n");
+            continue;
+        }
+
+        // Supprimer le caractère de nouvelle ligne s'il est présent
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n') {
+            buffer[len - 1] = '\0';
+        }
+
+        // Vérifier si la chaîne est vide ou contient uniquement des espaces
+        int estEspaceSeulement = 1;
+        for (size_t i = 0; i < strlen(buffer); i++) {
+            if (!isspace((unsigned char)buffer[i])) {
+                estEspaceSeulement = 0;
+                break;
+            }
+        }
+        if (strlen(buffer) == 0 || estEspaceSeulement) {
+            printf("\033[31mEntrée vide ou contenant uniquement des espaces. Veuillez entrer un entier.\033[0m\n");
+            continue;
+        }
+
+        // Convertir la chaîne en entier
+        valeur = (int)strtol(buffer, &finptr, 10);
+
+        // Vérifier s'il y a des caractères non numériques après le nombre
+        if (*finptr != '\0') {
+            printf("\033[31mEntrée invalide. Veuillez entrer un entier sans caractères supplémentaires.\033[0m\n");
+            continue;
+        }
+
+        // Vérifier si la valeur est dans les limites
+        if (valeur < min || valeur > max) {
+            printf("\033[31mLes valeurs doivent être comprises entre [%d et %d]. Veuillez réessayer.\033[0m\n", min, max);
+            continue;
+        }
+
+        // Entrée valide
+        return valeur;
+    }
+}
+
+/*
+  ================================
+   3. Paramètres de la partie
+  ================================
+*/
+
+// Fonction pour lire les paramètres du jeu
+void Parametres(int* nlig, int* ncol, int* niveau, int* next) {
+    // Messages de bienvenue et informations générales
+    printf("\n==================================================================\n");
+    printf("===============\033[34m Bienvenue dans le jeu du Nim \033[0m=====================\n");                     
+    printf("==================================================================\n");
+    printf("==================\033[34m Créateur : Ahmet BASBUNAR \033[0m=====================\n");                     
+    printf("==================================================================\n");
+    printf("\033[36m=> Le but est d'atteindre le puits de la grille\033[0m\n");                                     
+    printf("\033[36m=> en choisissant des cases voisines, et avec une certaine stratégie\033[0m\n");   
+    printf("==================================================================\n");
+    printf("\033[34m==> Veuillez saisir les Paramètres du jeu :\033[0m\n");                                          
+    printf("==================================================================\n");
+    
+    // Saisie du nombre de lignes avec les limites VMIN et VMAX
+    *nlig = Lire_Entier("\033[32m==> Entrez le nombre de lignes ( entre 5 et 30 )   : \033[0m", VMIN, VMAX);
+    printf("==================================================================\n");
+    
+    // Saisie du nombre de colonnes avec les limites VMIN et VMAX
+    *ncol = Lire_Entier("\033[32m==> Entrez le nombre de colonnes ( entre 5 et 30 )  : \033[0m", VMIN, VMAX);
+    printf("==================================================================\n");
+    
+    // Saisie du niveau de difficulté (1 à 4)
+    *niveau = Lire_Entier("\033[32m==> Choisissez un niveau de 1 à 4 : \033[0m", 1, 4);
+    printf("==================================================================\n");
+    
+    // Choix du premier joueur : Ordinateur (1) ou Joueur (2)
+    printf("----------------------\033[34m Qui commence le jeu ? \033[0m---------------------\n");             
+    printf("==================================================================\n");
+    *next = Lire_Entier("\033[32m==> Qui commence le jeu ? L’ordinateur (1) ou le joueur (2) : \033[0m", 1, 2);
+    printf("==================================================================\n");
+}
+
+/*
+  ============================
+   4. Calcul des voisins 
+  ============================
+*/
+
+void Voisines(T_Case position, int nlig, int ncol, T_Tab_Case* vois) {               // Fonction qui construit la liste des cases voisines d'une case à partir du position :
+    vois->nb = 0;                                                                       // Initialisation : Aucun voisin n'a encore été trouvé.
+
+    // Vérification et ajout de la case à 1 colonne à droite (lig, col + 1)
+    if (position.col + 1 <= ncol) {                                                     // Vérifie si la case est dans la grille
+        vois->tab[vois->nb].lig = position.lig;                                        // La ligne reste inchangée
+        vois->tab[vois->nb].col = position.col + 1;                                   // Colonne décalée de +1
+        vois->nb++;                                                                  // Incrémente le compteur de voisins trouvés de +1
+    }
+
+    // Vérification et ajout de la case à 2 colonnes à droite (lig, col + 2)
+    if (position.col + 2 <= ncol) {                                                      // Vérifie si la case est dans la grille
+        vois->tab[vois->nb].lig = position.lig;                                         // La ligne reste inchangée
+        vois->tab[vois->nb].col = position.col + 2;                                    // Colonne décalée de +2
+        vois->nb++;                                                                   // Incrémente le compteur de voisins trouvés de +1
+    }
+
+    // Vérification et ajout de la case à 1 ligne en dessous (lig + 1, col)
+    if (position.lig + 1 <= nlig) {                                                     // Vérifie si la case est dans la grille
+        vois->tab[vois->nb].lig = position.lig + 1;                                    // Ligne décalée de +1
+        vois->tab[vois->nb].col = position.col;                                       // Colonne reste inchangée
+        vois->nb++;                                                                  // Incrémente le compteur de voisins trouvés de +1
+    }
+
+    // Vérification et ajout de la case à 2 lignes en dessous (lig + 2, col)
+    if (position.lig + 2 <= nlig) {                                                     // Vérifie si la case est dans la grille
+        vois->tab[vois->nb].lig = position.lig + 2;                                    // Ligne décalée de +2
+        vois->tab[vois->nb].col = position.col;                                       // Colonne reste inchangée
+        vois->nb++;                                                                  // Incrémente le compteur de voisins trouvés de +1
+    }
+}
+
+/*
+  ===================================
+   5. Calcul du nimber d'une case
+  ===================================
+*/
+
+static int nimber[VMAX+1][VMAX+1];                                                    // Tableau global pour stocker les nimbers
+
+// Fonction pour construire les nimbers de toutes les cases
+void CalculNimbers(int nlig, int ncol) {                                         // Fonction pour construire les nimbers de toutes les cases :
+    // Initialisation   
+    for (int i = 1; i <= nlig; i++) {                                             
+        for (int j = 1; j <= ncol; j++) {
+            nimber[i][j] = -1; 
+        }
+    }
+    // Remplissage des nimbers de la dernière colonne à la première
+    for (int col = ncol; col >= 1; col--) {
+        // Pour chaque colonne, de bas en haut
+        for (int lig = nlig; lig >= 1; lig--) {
+            if (lig == nlig && col == ncol) {                                                                                ///   A VOIR , FONCTION NON COMPLETE  ///
+                // Puits
+                nimber[lig][col] = 0;
+            } else {
+                // Regarder les voisins de (lig, col)
+                T_Case cCour = {lig, col};
+                T_Tab_Case v; 
+                Voisines(cCour, nlig, ncol, &v);
+                // Si toutes les voisines ont nimber=1, alors nimber=0
+                int toutesV1 = 1;
+                for (int k = 0; k < v.nb; k++) {
+                    int nl = v.tab[k].lig;
+                    int nc = v.tab[k].col;
+                    if (nimber[nl][nc] == 0) {
+                        toutesV1 = 0;
+                        break;
+                    }
+                }
+                nimber[lig][col] = toutesV1 ? 0 : 1;
+            }
+        }
+    }
+}
+
+// Fonction utilitaire pour lire le nimber d'une case
+int NimberCase(int lig, int col) {                                                     // Une fonction pour lire le nimber d'une case :                    
+    return nimber[lig][col];                                                          // ou la fonction retourne le nimber de la case (lig, col) grace a la fonction CalculNimbers
+}
+
+/*
+  ========================================
+   6. Affichage de la grille en texte
+  ========================================
+*/
+
+// Prototype de la fonction Affiche_Bordure
+void Affiche_Bordure(int ncol);
+
+// Fonction pour afficher la grille avec bordures
+void Affiche_Grille(T_Case position, int nlig, int ncol) {
+    // Affiche les numéros de colonnes en bleu
+    printf("\n   ");
+    for (int j = 1; j <= ncol; j++) {
+        printf("\033[34m %2d \033[0m", j); // Deux espaces pour les numéros
+    }
+    printf("\n");
+
+    // Affiche la première ligne de bordure
+    Affiche_Bordure(ncol);
+
+    // Affiche chaque ligne de la grille avec les bordures verticales
+    for (int i = 1; i <= nlig; i++) {
+        // Affiche le numéro de ligne en bleu
+        printf("\033[34m%2d\033[0m |", i); // Numéro de ligne en bleu
+
+        // Affiche chaque cellule de la ligne
+        for (int j = 1; j <= ncol; j++) {
+            if (i == position.lig && j == position.col && i == nlig && j == ncol) {
+                // Pion sur le puits : combinaison des deux symboles
+                printf(" \033[38;5;208m🔴\033[0m |");
+            }
+            else if (i == position.lig && j == position.col) {
+                // Affiche l'emoji du pion
+                printf(" \033[38;5;208m♟\033[0m |");
+            }
+            else if (i == nlig && j == ncol) {
+                // Affiche l'emoji du puits
+                printf(" 🚩|");
+            }
+            else {
+                // Case vide
+                printf(" - |");
+            }
+        }
+        printf("\n");
+
+        // Affiche une ligne de bordure horizontale après chaque ligne de la grille
+        Affiche_Bordure(ncol);
+    }
+    printf("\n");
+}
+
+// Définition de la fonction Affiche_Bordure
+void Affiche_Bordure(int ncol) {
+    printf("   +");
+    for (int j = 1; j <= ncol; j++) {
+        printf("---+");
+    }
+    printf("\n");
+}
+
+/*
+  ========================================
+   7. Coups de l'ordinateur et du joueur
+  ========================================
+*/
+
+// 7.1: Le joueur choisit un coup parmi les voisins possibles
+void Coup_Joueur(T_Case* position, int nlig, int ncol) {
+    T_Tab_Case v;
+    Voisines(*position, nlig, ncol, &v);
+
+    // Affiche la liste des coups possibles avec couleurs
+    printf("\033[33mA toi de jouer ! Choisis ta destination :\033[0m\n"); // Jaune
+    for (int i = 0; i < v.nb; i++) {
+        printf("\033[35m%d:(%d,%d)\033[0m\n", i+1, v.tab[i].lig, v.tab[i].col); // Magenta avec nouvelle ligne
+        if (i < v.nb - 1) { // Ajoute une ligne de séparation sauf après la dernière option
+            printf("---------\n"); // Ligne de délimitation
+        }
+    }
+    printf("---> ");
+
+    // Lecture du choix
+    int choix;
+    while (1) {
+        choix = Lire_Entier("", 1, v.nb); // Passe une chaîne vide car le prompt est déjà affiché
+        if (choix >= 1 && choix <= v.nb) {
+            // Coup valide
+            *position = v.tab[choix-1];
+            break;
+        } else {
+            // Ce cas ne devrait pas arriver grâce à Lire_Entier, mais ajouté pour sécurité
+            printf("\033[31mErreur ! Veuillez choisir une option valide.\033[0m\n---> "); // Rouge
+        }
+    }
+}
+
+// 7.2: L'ordinateur choisit un coup au hasard parmi les voisins possibles
+int Hasard(int min, int max) {
+    // Renvoie un entier entre min et max inclus
+    return rand() % (max - min + 1) + min;
+}
+
+void Coup_Ordi_Hasard(T_Case* position, int nlig, int ncol) {                    // Fonction pour choisir un coup au hasard
+    T_Tab_Case v;                                                               // Tableau de voisins
+    Voisines(*position, nlig, ncol, &v);                                       // Construit la liste des voisins
+    if (v.nb == 0) {                                                            // Si aucun voisin, ne fait rien
+        return;
+    }
+    int r = Hasard(1, v.nb);                                                    // Choisit un coup au hasard (1 à v.nb)
+    *position = v.tab[r - 1];                                                   // Déplace le pion
+    printf("\033[36mL'ordinateur joue et place le pion en (%d,%d)\033[0m\n",      // Affiche où l'ordinateur s'est déplacé en cyan
+           position->lig, position->col); 
+}
+
+// 7.3: L'ordinateur cherche un coup gagnant => une voisine où nimber=0, sinon joue au hasard
+void Coup_Ordi_Gagnant(T_Case* position, int nlig, int ncol) {                    // Fonction pour trouver un coup gagnant
+    T_Tab_Case v;                                                               // Tableau de voisins
+    Voisines(*position, nlig, ncol, &v);                                       // Construit la liste des voisins
+
+    for (int i = 0; i < v.nb; i++) {                                           // Parcourt la liste des voisins
+        int n = NimberCase(v.tab[i].lig, v.tab[i].col);                       // Obtient le nimber de la case voisine
+        if (n == 0) {                                                           // Si le nimber est 0
+            *position = v.tab[i];                                               // Déplace le pion vers cette case
+            printf("\033[36mL'ordinateur joue et place le pion en (%d,%d)\033[0m\n",// Affiche le déplacement en cyan
+                position->lig, position->col);
+            return;                                                             // Quitte la fonction
+        }
+    }
+
+    // Si aucun coup gagnant, jouer au hasard
+    Coup_Ordi_Hasard(position, nlig, ncol);                                     // Appelle la fonction de coup aléatoire
+}
+
+/*
+  ===============================
+   8. Fonction principale (main)
+  ===============================
+*/
+
+int main(void){
+    srand((unsigned int)time(NULL));                                          // Initialisation du hasard
+
+    int nlig, ncol, niveau, next;                                           // Paramètres du jeu
+    Parametres(&nlig, &ncol, &niveau, &next);                              // Saisie des paramètres du jeu
+
+    CalculNimbers(nlig, ncol);                                               // Calcul des nimbers
+
+    T_Case position;
+    position.lig = 1; // Position initiale du pion
+    position.col = 1;
+
+    printf("==================================================================\n");
+    printf("====================== La partie COMMENCE ! ======================\n");  // Message de commencement du jeu
+    printf("==================================================================\n");
+    Affiche_Grille(position, nlig, ncol);                                     // Affichage initial de la grille
+
+    int fini = 0;                                                             // Initialisation de la variable pour la fin de la partie
+    int joueurActuel = next;                                                  // Initialisation de la variable pour le joueur actuel (1=ordinateur, 2=joueur)
+
+    while (!fini) {                                                            // Boucle de jeu tant que la partie n'est pas finie
+        // Coup du joueur ou de l'ordinateur
+        if (joueurActuel == 2) {
+            // Coup du joueur
+            Coup_Joueur(&position, nlig, ncol);
+        } else {
+            // Coup de l'ordinateur
+            double r = rand() / (double)RAND_MAX;
+            // Application des probabilités selon le niveau
+            switch(niveau) {
+                case 1:                                                        // Niveau 1 : toujours hasard
+                    Coup_Ordi_Hasard(&position, nlig, ncol);
+                    break;
+                case 2:                                                        // Niveau 2 : 2/3 hasard, 1/3 gagnant
+                    if (r < 2.0/3.0) {
+                        Coup_Ordi_Hasard(&position, nlig, ncol);
+                    } else {
+                        Coup_Ordi_Gagnant(&position, nlig, ncol);
+                    }
+                    break;
+                case 3:                                                        // Niveau 3 : 1/3 hasard, 2/3 gagnant
+                    if (r < 1.0/3.0) {
+                        Coup_Ordi_Hasard(&position, nlig, ncol);
+                    } else {
+                        Coup_Ordi_Gagnant(&position, nlig, ncol);
+                    }
+                    break;
+                case 4:
+                default:                                                         // Niveau 4 : toujours gagnant
+                    Coup_Ordi_Gagnant(&position, nlig, ncol);
+                    break;
+            }
+        }
+
+        // Affiche la grille après le mouvement
+        Affiche_Grille(position, nlig, ncol);                                   // Affichage après le mouvement
+
+        // Vérifie si le déplacement a terminé la partie
+        if (position.lig == nlig && position.col == ncol) {
+            fini = 1;
+            break;
+        }
+
+        // Bascule le joueur
+        if (joueurActuel == 1) {                                            // Basculement de joueur:  si l'ordinateur a joué ( joueurActuel == 1)
+            joueurActuel = 2;                                                    // Passe au joueur suivant, joueurActuel = 2
+        } else {                                                            // Sinon (joueurActuel == 2)
+            joueurActuel = 1;                                                    // Passe au joueur suivant, joueurActuel = 1
+        }
+    }
+
+    // Affichage final des messages de fin de partie
+    if (joueurActuel == 1) {                                                                    // Si l'ordinateur a gagné ( joueurActuel == 1)
+        printf("==================================================================\n");
+        printf("==================== La partie est TERMINEE ! ====================\n");           // Message de fin de partie
+        printf("==================================================================\n");
+        printf("\033[31m== L'ordinateur a gagné. C'est une défaite pour toi, Dommage ! ==\033[0m\n"); // Rouge
+        printf("==================================================================\n");
+        printf("==================== Ressaye une autre fois ! ====================\n");
+        printf("==================================================================\n");
+    } else {                                                                                     // Sinon (joueurActuel == 2)
+        printf("===================================================================\n");
+        printf("==================== La partie est TERMINEE ! ======================\n");                                 // Message de fin de partie
+        printf("===================================================================\n");
+        printf("\033[32m== 👏 Bravo 👏. Tu as réussi à gagner le jeu contre l'ordinateur ==\033[0m\n"); // Vert avec emojis
+        printf("===================================================================\n");
+    }
+    return 0;                                                                                                       // Fin de la fonction main 
+}
+
