@@ -42,5 +42,4 @@ Bienvenue dans le **Jeu du Nim** ! Ce projet est développé dans le cadre de la
 Les contributions sont les bienvenues ! Veuillez soumettre des **issues** ou des **pull requests** pour proposer des améliorations ou signaler des bugs.
 
 ## License
-
-[MIT License](LICENSE)
+PAS DE LICENSE POUR LE MOMENT
