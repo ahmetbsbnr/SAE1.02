@@ -1,3 +1,5 @@
+  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025  ||
+  
 Bienvenue dans le **Jeu du Nim** ! Ce projet est développé dans le cadre de la SAE1.02 
 et implémente une version interactive du jeu du Nim avec différents niveaux de difficulté.
 
@@ -7,9 +9,7 @@ et implémente une version interactive du jeu du Nim avec différents niveaux de
 - Choisissez parmi les différentes options pour jouer contre l'ordinateur à différents niveaux de difficulté.
 - Atteignez le puits représenté par l'emoji 🚩 pour gagner la partie.
 
-  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025  ||
-
-  Voici la Liste des fonctions pour le jeu du Nim:                                                                   
+Voici la Liste des fonctions pour le jeu du Nim:                                                                   
 
   < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.                         
   < Parametres >              - Permet de lire les paramètres du jeu.                                                
@@ -22,7 +22,7 @@ et implémente une version interactive du jeu du Nim avec différents niveaux de
   < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.                                          
   < main >                    - Assemble l’ensemble et exécute la partie.                                            
 
- Couleurs ANSI Utilisées dans le jeu du Nim :
+Couleurs ANSI Utilisées dans le jeu du Nim :
 
   < \033[31m - Rouge >        - Utilisé pour les messages d'erreur                                
   < \033[32m - Vert >         - Utilisé pour les messages de succès                               
