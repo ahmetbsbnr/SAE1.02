@@ -7,19 +7,20 @@ et implémente une version interactive du jeu du Nim avec différents niveaux de
 - Choisissez parmi les différentes options pour jouer contre l'ordinateur à différents niveaux de difficulté.
 - Atteignez le puits représenté par l'emoji 🚩 pour gagner la partie.
 
-  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025                                                                ||                    
-  || Voici la Liste des fonctions pour le jeu du Nim:                                                                   ||
+  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025  ||
+                                                                                
+  Voici la Liste des fonctions pour le jeu du Nim:                                                                   
 
-  || < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.                         ||
-  || < Parametres >              - Permet de lire les paramètres du jeu.                                                ||
-  || < Voisines >                - Construit la liste des cases voisines d'une case donnée.                             ||
-  || < Hasard >                  - Génère un déplacement au hasard.                                                     ||
-  || < Nimber >                  - Calcule le nimber d'une case donnée.                                                 ||
-  || < Coup_Joueur >             - Permet au joueur humain de choisir une destination parmi les voisines possibles.     ||
-  || < Coup_Ordi_Hasard >        - Permet à l'ordinateur de choisir un coup au hasard.                                  ||
-  || < Coup_Ordi_Gagnant >       - Permet à l'ordinateur de jouer un coup gagnant.                                      ||
-  || < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.                                          ||
-  || < main >                    - Assemble l’ensemble et exécute la partie.                                            ||
+  < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.                         
+  < Parametres >              - Permet de lire les paramètres du jeu.                                                
+  < Voisines >                - Construit la liste des cases voisines d'une case donnée.                             
+  < Hasard >                  - Génère un déplacement au hasard.                                                     
+  < Nimber >                  - Calcule le nimber d'une case donnée.                                                 
+  < Coup_Joueur >             - Permet au joueur humain de choisir une destination parmi les voisines possibles.     
+  < Coup_Ordi_Hasard >        - Permet à l'ordinateur de choisir un coup au hasard.                                  
+  < Coup_Ordi_Gagnant >       - Permet à l'ordinateur de jouer un coup gagnant.                                      
+  < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.                                          
+  < main >                    - Assemble l’ensemble et exécute la partie.                                            
 
   ||  Couleurs ANSI Utilisées dans le jeu du Nim                                                      ||
 
