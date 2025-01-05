@@ -1,35 +1,16 @@
-# Jeu du Nim - SAE1.02
+/* 
+///////////////////////////////////////////////////////////////
+//                                                           //
+//    /////   /////   /////         /|     ///////    /////  //
+//   ||      ||   ||  ||           /||     ||   ||   //  //  // 
+//    ////   ||///||  /////         ||     ||   ||      //   //
+//       ||  ||   ||  ||            ||     ||   ||    //     //
+//   //////  ||   ||  /////  /////  ||  @  ///////  //////   //
+//                                                           //                            
+///////////////////////////////////////////////////////////////     
 
-Bienvenue dans le **Jeu du Nim** ! Ce projet est développé dans le cadre de la SAE1.02 et implémente une version interactive du jeu du Nim avec différents niveaux de difficulté.
-
-## Fonctionnalités
-
-- **Quatre Niveaux de Difficulté :**
-  - **Niveau 1 :** L'ordinateur joue toujours au hasard.
-  - **Niveau 2 :** L'ordinateur joue au hasard 2/3 du temps et cherche un coup gagnant 1/3 du temps.
-  - **Niveau 3 :** L'ordinateur joue au hasard 1/3 du temps et cherche un coup gagnant 2/3 du temps.
-  - **Niveau 4 :** L'ordinateur joue toujours de manière optimale en cherchant un coup gagnant.
-
-- **Interface Utilisateur Esthétique :**
-  - Utilisation de **couleurs ANSI** et d'**emojis** pour une meilleure lisibilité et une interface attrayante.
-  - Messages de **bienvenue** et de **fin de partie** personnalisés.
-
-## Installation
-
-1. **Cloner le dépôt :**
-    ```bash
-    git clone https://github.com/ahmetbsbnr/SAE1.02.git
-    ```
-
-2. **Compiler le programme :**
-    ```bash
-    gcc -o nim_game nim_game.c
-    ```
-
-3. **Exécuter le programme :**
-    ```bash
-    ./nim_game
-    ```
+Bienvenue dans le **Jeu du Nim** ! Ce projet est développé dans le cadre de la SAE1.02 
+et implémente une version interactive du jeu du Nim avec différents niveaux de difficulté.
 
 ## Utilisation
 
@@ -37,9 +18,133 @@ Bienvenue dans le **Jeu du Nim** ! Ce projet est développé dans le cadre de la
 - Choisissez parmi les différentes options pour jouer contre l'ordinateur à différents niveaux de difficulté.
 - Atteignez le puits représenté par l'emoji 🚩 pour gagner la partie.
 
-## Contribuer
+  ========================================================================================================================
+  ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025                                                                ||                    
+  ||====================================================================================================================||
+  || Voici la Liste des fonctions pour le jeu du Nim:                                                                   ||
+  ||====================================================================================================================||
+  || < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.                         ||
+  || < Parametres >              - Permet de lire les paramètres du jeu.                                                ||
+  || < Voisines >                - Construit la liste des cases voisines d'une case donnée.                             ||
+  || < Hasard >                  - Génère un déplacement au hasard.                                                     ||
+  || < Nimber >                  - Calcule le nimber d'une case donnée.                                                 ||
+  || < Coup_Joueur >             - Permet au joueur humain de choisir une destination parmi les voisines possibles.     ||
+  || < Coup_Ordi_Hasard >        - Permet à l'ordinateur de choisir un coup au hasard.                                  ||
+  || < Coup_Ordi_Gagnant >       - Permet à l'ordinateur de jouer un coup gagnant.                                      ||
+  || < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.                                          ||
+  || < main >                    - Assemble l’ensemble et exécute la partie.                                            ||
+  ========================================================================================================================
 
-Les contributions sont les bienvenues ! Veuillez soumettre des **issues** ou des **pull requests** pour proposer des améliorations ou signaler des bugs.
+  ======================================================================================================
+  ||  Couleurs ANSI Utilisées dans le jeu du Nim                                                      ||
+  ||==================================================================================================||
+  || < \033[31m - Rouge >        - Utilisé pour les messages d'erreur                                 ||
+  || < \033[32m - Vert >         - Utilisé pour les messages de succès                                ||
+  || < \033[33m - Jaune >        - Utilisé pour les messages de prompt                                ||
+  || < \033[34m - Bleu >         - Utilisé pour les titres et séparations                             ||
+  || < \033[35m - Magenta >      - Utilisé pour les choix du joueur                                   ||
+  || < \033[36m - Cyan >         - Utilisé pour les messages spécifiques (créateur, choix du joueur)  ||
+  || < \033[0m  - Reset >        - Reset les couleurs au défaut du terminal                           ||
+  ======================================================================================================
 
-## License
-PAS DE LICENSE POUR LE MOMENT
+  ======================
+  || symboles :       ||
+  ||   -> pion  : ♟   ||
+  ||   -> puits : 🚩  ||
+  ||   -> fin   : 🔴  ||
+  ||   -> case  : -   ||
+  ======================
+
+  =========================================
+  =========================================
+  ||||        Prévisualisation :       ||||
+  =========================================
+  =========================================
+
+
+  =========================================
+  || A. Grille de Jeu (5x5) :            ||
+  =========================================
+
+          1   2   3   4   5              1   2   3   4   5              1   2   3   4   5
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+      1 | ♟ | - | - | - | - |        1 | - | - | - | - | - |        1 | - | - | - | - | - |
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+      2 | - | - | - | - | - |        2 | - | - | - | - | - |        2 | - | - | - | - | - |
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+      3 | - | - | - | - | - |        3 | - | - | - | - | ♟ |        3 | - | - | - | - | - |
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+      4 | - | - | - | - | - |        4 | - | - | - | - | - |        4 | - | - | - | - | - |
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+      5 | - | - | - | - | 🚩|        5 | - | - | - | - | 🚩 |        5 | - | - | - | - | 🔴|
+        +---+---+---+---+---+          +---+---+---+---+---+          +---+---+---+---+---+
+
+  =========================================
+  || B.   Tableau des Nimbers (5x5) :    ||
+  =========================================
+
+          1   2   3   4   5
+        +---+---+---+---+---+
+      1 | 0 | 1 | 1 | 0 | 1 |
+        +---+---+---+---+---+
+      2 | 1 | 0 | 1 | 1 | 0 |
+        +---+---+---+---+---+
+      3 | 1 | 1 | 0 | 1 | 1 |
+        +---+---+---+---+---+
+      4 | 0 | 1 | 1 | 0 | 1 |
+        +---+---+---+---+---+
+      5 | 1 | 0 | 1 | 1 | 0 |
+        +---+---+---+---+---+
+
+  =============================================================================================================
+  ||   - Description :                                                                                       ||
+  ||     - Chaque case du tableau représente le nimber de la case correspondante dans la grille de jeu.      ||
+  ||     - Un nimber de `0` indique une position perdante, si le prochaine coup est joué par l'ordinateur.   ||
+  ||     - Un nimber de `1` indique une position gagnante, si le prochaine coup est joué par le joueur.      ||
+  =============================================================================================================
+*/
+
+/*  
+    ============================================================================================================================================
+    ||                                               Documentation du Programme du Nim                                                        ||
+    ============================================================================================================================================
+    ||  Auteur : Ahmet BASBUNAR                                                                                                               ||                                              
+    ||  Date :Janvier 2025                                                                                                                    ||
+    ||  SAE : SAE.1_02                                                                                                                        ||
+.   ||                                                                                                                                        ||
+    ||  Fonctionnalités Principales :                                                                                                         ||
+    ||  - Fonctionnement Correct : Le programme exécute le jeu du Nim sans erreurs majeures.                                                  ||
+.   ||                                                                                                                                        ||
+    ||  - Niveaux de Difficulté :                                                                                                             ||
+    ||      - Niveau 1 : L'ordinateur joue toujours au hasard.                                                                                ||
+    ||      - Niveau 2 : L'ordinateur joue au hasard 2/3 du temps et cherche un coup gagnant 1/3 du temps.                                    ||
+    ||      - Niveau 3 : L'ordinateur joue au hasard 1/3 du temps et cherche un coup gagnant 2/3 du temps.                                    ||
+    ||      - Niveau 4 : L'ordinateur joue toujours de manière optimale en cherchant un coup gagnant.                                         ||
+.   ||                                                                                                                                        ||
+    ||  - Structure du Code :                                                                                                                 ||
+    ||      - Le code est bien organisé et structuré pour faciliter la compréhension et la maintenance.                                       ||
+.   ||                                                                                                                                        ||
+    ||  - Commentaires :                                                                                                                      ||
+    ||      - Toutes les fonctions sont commentées de manière claire, pour faciliter la compréhension.                                        ||
+.   ||                                                                                                                                        ||
+    ||  -  Personnalisations Esthétiques :                                                                                                    ||
+    ||     - Utilisation de couleurs ANSI et d'emojis pour une meilleure lisibilité et une interface utilisateur attirante.                   ||
+    ||     - Messages de bienvenue et de fin de partie personnalisés pour enrichir l'expérience de jeu.                                       ||
+.   ||                                                                                                                                        ||
+    ||  ⚠️⚠️ AVERTISSEMENT ⚠️⚠️                                                                                                               ||
+    ||  - Possible Présence d'Erreurs : Bien que le programme soit fonctionnel, il peut contenir des bugs non détectés.                       ||
+    ||  - Optimisations Possibles : Certaines fonctions peuvent être optimisées pour améliorer les performances et la lisibilité du code.     ||
+.   ||                                                                                                                                        ||
+    ============================================================================================================================================
+
+## Installation
+
+1. **Compiler le programme :**
+    ```bash
+    gcc -o JeudeNim JeuDeNim.c
+    ```
+
+2. **Exécuter le programme :**
+    ```bash
+    ./JeuDeNim
+    ```
