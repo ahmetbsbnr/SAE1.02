@@ -75,6 +75,6 @@ symboles :
 
 ||   - Description :                                                                                       
 ||     - Chaque case du tableau représente le nimber de la case correspondante dans la grille de jeu.      
-||     - Un nimber de `0` indique une position perdante, si le prochaine coup est joué par le joueur.   
-||     - Un nimber de `1` indique une position gagnante, si le prochaine coup est joué par l'ordinateur.      
+||     - Si le joueur tombe sur une case de nimber  `0`, cela indique une position gagnante, car le prochaine coup est joué par l'ordinateur.   
+||     - SI l'ordinateur tombe sur une case de nimber `1`, cela indique une position perdante, car le prochaine coup est joué par le joueur.      
 
