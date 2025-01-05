@@ -8,7 +8,7 @@ et implémente une version interactive du jeu du Nim avec différents niveaux de
 - Atteignez le puits représenté par l'emoji 🚩 pour gagner la partie.
 
   ||  Jeu du Nim - SAE 1.02 - Ahmet BASBUNAR - 2024-2025  ||
-                                                                                
+
   Voici la Liste des fonctions pour le jeu du Nim:                                                                   
 
   < Lire_Entier >             - Permet de lire un entier et de le valider entre deux bornes.                         
@@ -22,21 +22,21 @@ et implémente une version interactive du jeu du Nim avec différents niveaux de
   < Affiche_Grille >          - Affiche la grille de jeu avec des bordures.                                          
   < main >                    - Assemble l’ensemble et exécute la partie.                                            
 
-  ||  Couleurs ANSI Utilisées dans le jeu du Nim                                                      ||
+ Couleurs ANSI Utilisées dans le jeu du Nim :
 
-  || < \033[31m - Rouge >        - Utilisé pour les messages d'erreur                                 ||
-  || < \033[32m - Vert >         - Utilisé pour les messages de succès                                ||
-  || < \033[33m - Jaune >        - Utilisé pour les messages de prompt                                ||
-  || < \033[34m - Bleu >         - Utilisé pour les titres et séparations                             ||
-  || < \033[35m - Magenta >      - Utilisé pour les choix du joueur                                   ||
-  || < \033[36m - Cyan >         - Utilisé pour les messages spécifiques (créateur, choix du joueur)  ||
-  || < \033[0m  - Reset >        - Reset les couleurs au défaut du terminal                           ||
+  < \033[31m - Rouge >        - Utilisé pour les messages d'erreur                                
+  < \033[32m - Vert >         - Utilisé pour les messages de succès                               
+  < \033[33m - Jaune >        - Utilisé pour les messages de prompt                                
+  < \033[34m - Bleu >         - Utilisé pour les titres et séparations                            
+  < \033[35m - Magenta >      - Utilisé pour les choix du joueur                                  
+  < \033[36m - Cyan >         - Utilisé pour les messages spécifiques (créateur, choix du joueur) 
+  < \033[0m  - Reset >        - Reset les couleurs au défaut du terminal                          
 
-  || symboles :       ||
-  ||   -> pion  : ♟   ||
-  ||   -> puits : 🚩  ||
-  ||   -> fin   : 🔴  ||
-  ||   -> case  : -   ||
+symboles :       
+  -> pion  : ♟   
+  -> puits : 🚩  
+  -> fin   : 🔴  
+  -> case  : -   
   
   ||||        Prévisualisation :       ||||
 
