@@ -27,7 +27,7 @@ Le **Jeu du Nim** oppose deux joueurs autour d'une grille quadrillée composée 
 
 ### Exemple de Grille Initiale et Déplacements Autorisés
 
-     1   2   3   4   5
+.    1   2   3   4   5
    +---+---+---+---+---+
 1  | ♟ | - | - | - | - |
    +---+---+---+---+---+
