@@ -90,6 +90,16 @@
   ||     - Chaque case du tableau représente le nimber de la case correspondante dans la grille de jeu.      
   ||     - Un nimber de `0` indique une position perdante, si le prochaine coup est joué par l'ordinateur.   
   ||     - Un nimber de `1` indique une position gagnante, si le prochaine coup est joué par le joueur.      
+
+
+
+/////////////////////////////////////////////////////////
+//                                                     //
+//  Le Projet a été ajouté dans un repertoire GitHub.  //
+//                                                     //
+//      https://github.com/ahmetbsbnr/SAE1.02          //
+//                                                     //
+/////////////////////////////////////////////////////////
 */
 
 
@@ -249,7 +259,7 @@ printf("\033[31mLes valeurs doivent être comprises entre [%d et %d]. Veuillez r
 void Parametres(int* nlig, int* ncol, int* niveau, int* next) {//                                                       |||||| Saisie des paramètres du jeu |||||
 
     printf("\n==================================================================\n");                                   /////| 
-    printf("=================\033[34m Bienvenue dans le jeu du Nim ! \033[0m=================\n");                      //|
+    printf("=================\033[34m Bienvenue dans le jeu du Nim ! \033[0m=================\n");                         //|
     printf("==================================================================\n");                                        //|
     printf("==================\033[34m Créateur : Ahmet BASBUNAR \033[0m=====================\n");                         //|       
     printf("==================================================================\n");                                        //| Affiche un message de bienvenue
@@ -620,4 +630,3 @@ printf("==================================================================\n"); 
     return 0;                                                                                      
 }                                                                                                        //| Fin de la fonction principale
 //                                                                                                       //| et Fin du programme
-
