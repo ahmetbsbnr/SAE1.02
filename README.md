@@ -135,12 +135,4 @@ Clonez le dépôt GitHub et compilez le programme :
 git clone https://github.com/ahmetbsbnr/SAE1.02.git
 cd SAE1.02
 gcc -o jeu_nim jeu_nim.c
-
-
-
-
-
-
-
-
-
+```
